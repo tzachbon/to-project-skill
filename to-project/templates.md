@@ -47,20 +47,31 @@ Assume other agents and the user work this repo at the same time.
 
 ## Index: where things live
 
+`AGENTS.md` is the canonical steering file. Harness aliases are documented in
+the skill's Harness notes section.
+
+- **`AGENTS.md`** (this file): steering instructions and directory map.
 - **`TASKS.md`**: task board. Read first, update as you work.
-- **`CONTEXT.md`**: glossary. The project's canonical terms. Challenge any usage
-  that conflicts with it. _(Created on the first term resolved during the grill.
-  May not exist yet in a fresh scaffold.)_
-- **`docs/`**: durable docs. `docs/adr/` holds architecture decision records
-  (why a hard-to-reverse choice was made). _(`docs/adr/` is created on the first
-  hard-to-reverse trade-off. May not exist yet in a fresh scaffold.)_
-- **`research/`**: working material. `research/inbox/` is intake;
-  `research/inbox/sources.md` indexes every source. Keep exploration here.
-- **`resources/`**: assets and external references the project depends on.
-- **`docs/memory/MEMORY.md`**: repo-local memory index. One line per durable fact;
-  facts live in sibling files.
+- **`assets/`**: all provided raw inputs (transcripts, images, scripts, the
+  originating dump). Tracked in git; provenance lives here.
+  - `assets/sources.md`: index of every provided asset.
+  - `assets/origin.md`: the originating idea (only if input was a typed prompt
+    with no file).
+- **`research/`**: working and generated research the agents produce. Not for
+  provided source files (those go in `assets/`).
+- **`docs/`**: durable docs.
+  - `docs/adr/`: architecture decision records (why a hard-to-reverse choice was
+    made). _(Created on the first hard-to-reverse trade-off. May not exist yet
+    in a fresh scaffold.)_
+  - `docs/memory/MEMORY.md`: repo-local memory index. One line per durable fact;
+    facts live in sibling files.
+- **`CONTEXT.md`**: glossary of the project's canonical terms. Challenge any
+  usage that conflicts with it. _(Created on the first term resolved during the
+  grill. May not exist yet in a fresh scaffold.)_
 
 {{type-specific entries, e.g. for a presentation: "slides/: the deck".}}
+
+{{If related projects were identified: "## Related projects\n- path/to/sibling: one-line why"}}
 ```
 
 ---
@@ -85,14 +96,14 @@ _(empty: queue the next items when priorities are clear)_
 {{questions surfaced during the grill that are not yet resolved}}
 
 ## Reference
-- Origin and sources: `research/inbox/sources.md`
+- Origin and sources: `assets/sources.md`
 - Glossary: `CONTEXT.md` _(if present; may not exist yet in a fresh scaffold)_
 - Decisions: `docs/adr/` _(if present; may not exist yet in a fresh scaffold)_
 ```
 
 ---
 
-## research/inbox/sources.md
+## assets/sources.md
 
 ```markdown
 # Sources: intake index
@@ -101,12 +112,12 @@ One row per source fed into this project. Newest first.
 
 | Date | Source | Path | Notes |
 |---|---|---|---|
-| {{YYYY-MM-DD}} | {{origin: session / notes / artifact}} | {{research/inbox/<file>}} | {{one line}} |
+| {{YYYY-MM-DD}} | {{origin: session / notes / artifact}} | {{assets/<file>}} | {{one line}} |
 ```
 
 ---
 
-## research/inbox/origin.md (typed-only idea, no artifact)
+## assets/origin.md (typed-only idea, no artifact)
 
 ```markdown
 # Origin
@@ -140,6 +151,10 @@ Add a pointer here when you write a fact: `- [Title](file.md): hook`.
 ---
 
 ## .gitignore by project type
+
+These blocks are examples. Include the common block always, then append the
+block closest to the declared type. For free-form types with no exact match,
+compose from the common block plus the nearest example.
 
 Always include the common block. Append the type-specific block.
 

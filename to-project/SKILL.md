@@ -26,11 +26,14 @@ notes, or this session's transcript. Read it fully before asking anything.
 
 ### 2. Infer and confirm the frame
 From the input, infer:
-- **Project type**: one of `presentation`, `software`, `research`,
-  `ops-runbook`, `docs`, or `other (describe)`. State your guess with confidence.
+- **Project type**: derive a best-guess from the input and present it as the
+  prefilled answer. Then prompt the user: "Type X (software / presentation /
+  research / docs / ops-runbook / library / data-analysis, or anything else).
+  Path Y. Go, or correct?" Accept any free-form type; the declared type drives
+  `.gitignore` composition and type-specific dirs.
 - **Target path**: default `~/projects/<slug>`, slug derived from the input.
 
-Prompt once: "Type X, path Y. Go, or correct?" One line, then proceed.
+One prompt, one line, then proceed.
 
 ### 3. Create the repo
 Before creating: if the target path already exists and is non-empty, stop and
@@ -60,6 +63,15 @@ Grilling moves:
 - Stress-test relationships with concrete edge-case scenarios.
 - The input seeds questions, it never shortens the grill.
 
+### 4a. Glance at sibling projects (read-only)
+Before finalising the scaffold, look at the sibling directories of the new
+project's parent dir (e.g. other folders alongside it in `~/projects`). Shallow
+and read-only: check only each sibling's top-level steering or readme file
+(`AGENTS.md`, `README.md`, or `CLAUDE.md`) — first lines only — to judge
+relevance. If any are relevant to this project, note them for the AGENTS.md
+"Related projects" section (path + one-line why). If none are relevant, omit
+that section entirely. Do not traverse into sibling internals.
+
 ### 5. Preview and confirm
 Before writing the remaining scaffold, show:
 - detected type + final path
@@ -72,24 +84,22 @@ Wait for one explicit "go".
 Write from templates.md:
 - **`AGENTS.md`**: two layers: (a) core instructions (what the project is; "read
   TASKS.md first, it is the source of truth"; global conventions noted as
-  reminders) and (b) an index pointing to where docs/research/resources live and
-  how to handle each. Include the multi-agent contract (below). The index entries
-  for `CONTEXT.md` and `docs/adr/` are annotated as conditional: both are created
-  lazily during the grill (first term and first ADR respectively) and may not
-  exist in a fresh scaffold.
-  `AGENTS.md` is the cross-harness standard (read natively by Codex, Jules, Devin,
-  and others). If the active harness uses a different filename, alias it, e.g.
-  `ln -s AGENTS.md CLAUDE.md` (Claude Code) or `ln -s AGENTS.md GEMINI.md`
-  (Gemini CLI).
+  reminders) and (b) a directory map covering every top-level dir and key file.
+  Include the multi-agent contract (below). The index entries for `CONTEXT.md`
+  and `docs/adr/` are annotated as conditional: both are created lazily during
+  the grill (first term and first ADR respectively) and may not exist in a fresh
+  scaffold. If any sibling projects were identified as related (step 4a), add a
+  "Related projects" section linking them by path with a one-line why.
 - **`TASKS.md`**: goals to Backlog, extracted Open Questions filled in; Now and
   Next left empty.
-- **Dirs**: `docs/`, `docs/memory/`, `research/inbox/`, `resources/`; `.gitkeep` in empties. The
-  `AGENTS.md` index is the single source of truth for what-goes-where. No
-  per-directory READMEs.
+- **Dirs**: `assets/`, `docs/`, `docs/memory/`, `research/`; `.gitkeep` in
+  empties. `assets/` is tracked in git (provenance is the point); very large or
+  binary assets may be gitignored if size is a concern. The `AGENTS.md` index is
+  the single source of truth for what-goes-where. No per-directory READMEs.
 - **Memory index**: seed the repo-local index (header + format, no facts).
-- **Provenance**: copy the source artifact into `research/inbox/` with a dated
-  name, log it in `research/inbox/sources.md`; ADRs and CONTEXT terms that came
-  from it cite it. A typed-only idea goes to `research/inbox/origin.md`.
+- **Provenance**: copy the source artifact into `assets/` with a dated name, log
+  it in `assets/sources.md`; ADRs and CONTEXT terms that came from it cite it. A
+  typed-only idea with no file goes to `assets/origin.md`.
 
 ### 7. Commit
 One commit, "Initial project scaffold". No AI attribution (per the user's global
@@ -105,6 +115,19 @@ The default working model this skill assumes and documents:
 - If a write is blocked or risks collision, work in a worktree and merge back
   (rebase onto moved main, then ff-only).
 - Converging a side session back into the main thread closes the loop; the main session stays the source of truth.
+
+## Harness notes
+
+`AGENTS.md` is the canonical steering file, read natively by Codex, Jules,
+Devin, and others. Harnesses that expect a different filename need an alias so
+they pick it up.
+
+Claude Code example: create a `CLAUDE.md` containing the single line `@AGENTS.md`
+(Claude Code import syntax), which imports the file. Alternatively, symlink:
+`ln -s AGENTS.md CLAUDE.md`.
+
+Other harnesses work the same way: `ln -s AGENTS.md GEMINI.md` for Gemini CLI,
+and so on for any harness that reads a different filename.
 
 ## Files
 - **templates.md**: all scaffold file bodies (AGENTS.md, TASKS.md, sources.md,

@@ -1,6 +1,6 @@
 # to-project
 
-Takes an idea, a notes dump, or a session transcript and turns it into a complete agent-ready local project: a git repo with `TASKS.md`, an `AGENTS.md` instructions file, `CONTEXT.md` glossary, `docs/adr/` for architecture decisions, `research/inbox/` for source material, and a repo-local memory index. The grill is the engine: the agent interviews you one question at a time until there is shared understanding, writing decisions into the project's docs live as the conversation advances.
+Takes an idea, a notes dump, or a session transcript and turns it into a complete agent-ready local project: a git repo with `TASKS.md`, an `AGENTS.md` steering file, `CONTEXT.md` glossary, `docs/adr/` for architecture decisions, `assets/` for provided source material, `research/` for generated work, and a repo-local memory index. The grill is the engine: the agent interviews you one question at a time until there is shared understanding, writing decisions into the project's docs live as the conversation advances.
 
 This is a portable **Agent Skill**: a folder containing `SKILL.md` (with `name` and `description` frontmatter) plus three reference files. Any agent harness that supports the Agent Skills format can load and invoke it.
 
@@ -90,13 +90,14 @@ The agent picks up the skill automatically from the trigger phrases in `SKILL.md
 
 ## What it scaffolds
 
-- `AGENTS.md`: what the project is, working norms, multi-agent contract, index of where things live
+- `AGENTS.md`: steering file, working norms, multi-agent contract, directory map
 - `TASKS.md`: task board seeded from the input (goals to Backlog, open questions extracted)
-- `CONTEXT.md`: glossary of canonical terms (written live during the grill)
+- `assets/`: provided source material (transcripts, artifacts, images), tracked in git, indexed in `assets/sources.md`
+- `research/`: working and generated research the agents produce
+- `CONTEXT.md`: glossary of canonical terms (written live during the grill; created on first term)
 - `docs/adr/`: architecture decision records for hard-to-reverse trade-offs (created on first ADR)
 - `docs/memory/MEMORY.md`: repo-local memory index (header and format, no facts yet)
-- `research/inbox/`: source material intake, with the input artifact copied in and indexed
-- `resources/`: external references and assets
+- Related projects: if sibling directories are relevant, linked in AGENTS.md with a one-line why
 
 ## License
 
