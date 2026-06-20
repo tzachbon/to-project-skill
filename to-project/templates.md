@@ -1,14 +1,14 @@
 # Scaffold templates
 
 File bodies the skill writes in step 6. Replace `{{placeholders}}`. Keep each
-file lean: `CLAUDE.md` is a map, not a manual.
+file lean: `AGENTS.md` is a map, not a manual.
 
 ---
 
-## CLAUDE.md
+## AGENTS.md
 
 ```markdown
-# CLAUDE.md
+# AGENTS.md
 
 Guidance for any agent working in this repo.
 
@@ -24,8 +24,8 @@ what is in flight.
 {{project-specific norms inferred during the grill. Examples: build/test commands,
 where output goes, review gates.}}
 
-Global conventions (from the user's `~/.claude/CLAUDE.md`) apply automatically and
-are not repeated here. Reminders that bite often in this project:
+Global conventions (from the user's harness-level instructions file) apply
+automatically and are not repeated here. Reminders that bite often in this project:
 - No AI attribution in commits, PRs, or file content.
 - No em dashes in prose. Self-edit for slop before sending.
 

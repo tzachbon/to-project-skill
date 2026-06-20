@@ -1,6 +1,6 @@
 # to-project
 
-Takes an idea, a notes dump, or a session transcript and turns it into a complete agent-ready local project: a git repo with `TASKS.md`, a `CLAUDE.md` / `AGENTS.md` / `GEMINI.md` instructions file, `CONTEXT.md` glossary, `docs/adr/` for architecture decisions, `research/inbox/` for source material, and a repo-local memory index. The grill is the engine: the agent interviews you one question at a time until there is shared understanding, writing decisions into the project's docs live as the conversation advances.
+Takes an idea, a notes dump, or a session transcript and turns it into a complete agent-ready local project: a git repo with `TASKS.md`, an `AGENTS.md` instructions file, `CONTEXT.md` glossary, `docs/adr/` for architecture decisions, `research/inbox/` for source material, and a repo-local memory index. The grill is the engine: the agent interviews you one question at a time until there is shared understanding, writing decisions into the project's docs live as the conversation advances.
 
 This is a portable **Agent Skill**: a folder containing `SKILL.md` (with `name` and `description` frontmatter) plus three reference files. Any agent harness that supports the Agent Skills format can load and invoke it.
 
@@ -90,7 +90,7 @@ The agent picks up the skill automatically from the trigger phrases in `SKILL.md
 
 ## What it scaffolds
 
-- `CLAUDE.md` / instructions file: what the project is, working norms, multi-agent contract, index of where things live
+- `AGENTS.md`: what the project is, working norms, multi-agent contract, index of where things live
 - `TASKS.md`: task board seeded from the input (goals to Backlog, open questions extracted)
 - `CONTEXT.md`: glossary of canonical terms (written live during the grill)
 - `docs/adr/`: architecture decision records for hard-to-reverse trade-offs (created on first ADR)

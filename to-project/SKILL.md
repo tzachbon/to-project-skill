@@ -6,7 +6,7 @@ description: Use when the user wants to turn an idea, a notes dump, or a session
 # to-project
 
 Turn raw input (an idea, notes, or a whole session) into a complete, agent-ready
-local project: git repo, `CLAUDE.md`, `TASKS.md`, docs, research intake, a
+local project: git repo, `AGENTS.md`, `TASKS.md`, docs, research intake, a
 glossary, and a memory index. The grill is the engine. You interview the user to
 shared understanding, and the project's docs crystallise live during that
 interview.
@@ -70,17 +70,21 @@ Wait for one explicit "go".
 
 ### 6. Scaffold (on go)
 Write from templates.md:
-- **`CLAUDE.md`**: two layers: (a) core instructions (what the project is; "read
+- **`AGENTS.md`**: two layers: (a) core instructions (what the project is; "read
   TASKS.md first, it is the source of truth"; global conventions noted as
   reminders) and (b) an index pointing to where docs/research/resources live and
   how to handle each. Include the multi-agent contract (below). The index entries
   for `CONTEXT.md` and `docs/adr/` are annotated as conditional: both are created
   lazily during the grill (first term and first ADR respectively) and may not
   exist in a fresh scaffold.
+  `AGENTS.md` is the cross-harness standard (read natively by Codex, Jules, Devin,
+  and others). If the active harness uses a different filename, alias it, e.g.
+  `ln -s AGENTS.md CLAUDE.md` (Claude Code) or `ln -s AGENTS.md GEMINI.md`
+  (Gemini CLI).
 - **`TASKS.md`**: goals to Backlog, extracted Open Questions filled in; Now and
   Next left empty.
 - **Dirs**: `docs/`, `docs/memory/`, `research/inbox/`, `resources/`; `.gitkeep` in empties. The
-  `CLAUDE.md` index is the single source of truth for what-goes-where. No
+  `AGENTS.md` index is the single source of truth for what-goes-where. No
   per-directory READMEs.
 - **Memory index**: seed the repo-local index (header + format, no facts).
 - **Provenance**: copy the source artifact into `research/inbox/` with a dated
@@ -91,7 +95,7 @@ Write from templates.md:
 One commit, "Initial project scaffold". No AI attribution (per the user's global
 rule). Do NOT create a remote. Show the final tree.
 
-## Multi-agent contract (write into CLAUDE.md)
+## Multi-agent contract (write into AGENTS.md)
 The default working model this skill assumes and documents:
 - One **main/orchestrator session**; **named side-agents** each run their own
   loop, often on their own branch or git worktree.
@@ -103,7 +107,7 @@ The default working model this skill assumes and documents:
 - Converging a side session back into the main thread closes the loop; the main session stays the source of truth.
 
 ## Files
-- **templates.md**: all scaffold file bodies (CLAUDE.md, TASKS.md, sources.md,
+- **templates.md**: all scaffold file bodies (AGENTS.md, TASKS.md, sources.md,
   memory index, `.gitignore` by type).
 - **CONTEXT-FORMAT.md**: glossary format for step 4.
 - **ADR-FORMAT.md**: ADR format for step 4.
