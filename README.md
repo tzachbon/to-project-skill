@@ -9,7 +9,7 @@ This is a portable **Agent Skill**: a folder containing `SKILL.md` (with `name` 
 The universal pattern for every harness: make the `to-project/` folder available in that harness's skills directory. Clone this repo (or download it), then copy or symlink the `to-project/` subfolder into the right location.
 
 ```sh
-git clone https://github.com/youruser/to-project-skill.git
+git clone https://github.com/tzachbon/to-project-skill.git
 ```
 
 ### Claude Code
