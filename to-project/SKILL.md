@@ -67,7 +67,7 @@ Grilling moves:
 Before finalising the scaffold, look at the sibling directories of the new
 project's parent dir (e.g. other folders alongside it in `~/projects`). Shallow
 and read-only: check only each sibling's top-level steering or readme file
-(`AGENTS.md`, `README.md`, or `CLAUDE.md`) — first lines only — to judge
+(`AGENTS.md`, `README.md`, or `CLAUDE.md`), first lines only, to judge
 relevance. If any are relevant to this project, note them for the AGENTS.md
 "Related projects" section (path + one-line why). If none are relevant, omit
 that section entirely. Do not traverse into sibling internals.
@@ -81,6 +81,11 @@ Before writing the remaining scaffold, show:
 Wait for one explicit "go".
 
 ### 6. Scaffold (on go)
+Before writing any file, self-edit every piece of synthesized prose you are
+about to commit (AGENTS.md, TASKS.md, CONTEXT.md, ADRs): no em dashes, cut
+filler. The conventions written into AGENTS.md govern the scaffolded project
+itself, not just future work in it.
+
 Write from templates.md:
 - **`AGENTS.md`**: two layers: (a) core instructions (what the project is; "read
   TASKS.md first, it is the source of truth"; global conventions noted as
@@ -90,12 +95,17 @@ Write from templates.md:
   the grill (first term and first ADR respectively) and may not exist in a fresh
   scaffold. If any sibling projects were identified as related (step 4a), add a
   "Related projects" section linking them by path with a one-line why.
+- **Harness alias**: make `AGENTS.md` auto-load in the user's harness (see Harness
+  notes). Default to Claude Code: a `CLAUDE.md` whose single line is `@AGENTS.md`.
+  Add other aliases (`GEMINI.md`, etc.) only if the user names another harness.
 - **`TASKS.md`**: goals to Backlog, extracted Open Questions filled in; Now and
   Next left empty.
-- **Dirs**: `assets/`, `docs/`, `docs/memory/`, `research/`; `.gitkeep` in
-  empties. `assets/` is tracked in git (provenance is the point); very large or
-  binary assets may be gitignored if size is a concern. The `AGENTS.md` index is
-  the single source of truth for what-goes-where. No per-directory READMEs.
+- **Dirs**: `assets/`, `docs/`, `docs/memory/`, `research/`; add a `.gitkeep`
+  to every created directory that has no file yet (git does not track empty dirs,
+  so without it `research/` and other empty dirs vanish on clone). `assets/` is
+  tracked in git (provenance is the point); very large or binary assets may be
+  gitignored if size is a concern. The `AGENTS.md` index is the single source of
+  truth for what-goes-where. No per-directory READMEs.
 - **Memory index**: seed the repo-local index (header + format, no facts).
 - **Provenance**: copy the source artifact into `assets/` with a dated name, log
   it in `assets/sources.md`; ADRs and CONTEXT terms that came from it cite it. A
