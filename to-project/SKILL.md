@@ -61,9 +61,8 @@ instead of asking.
 Write decisions live, do not batch:
 - **Terminology** -> `CONTEXT.md` glossary (format: CONTEXT-FORMAT.md). Devoid of
   implementation detail. A glossary, nothing else.
-- **Hard-to-reverse trade-offs** -> `docs/adr/NNNN-slug.md`, sparingly (format:
-  ADR-FORMAT.md). Only when the decision is hard to reverse AND surprising without
-  context AND a real trade-off. If any of the three is missing, skip it.
+- **Hard-to-reverse trade-offs** -> `docs/adr/NNNN-slug.md`, sparingly. File only
+  when it clears the ADR gate (format and gate: ADR-FORMAT.md).
 
 Grilling moves:
 - Challenge terms that conflict with what is already in `CONTEXT.md`.
@@ -95,15 +94,11 @@ filler. The conventions written into AGENTS.md govern the scaffolded project
 itself, not just future work in it.
 
 Write from templates.md:
-- **`AGENTS.md`**: two layers: (a) core instructions (what the project is; "read
-  TASKS.md first, it is the source of truth"; global conventions noted as
-  reminders) and (b) a directory map covering every top-level dir and key file.
-  Include the multi-agent contract (below). The index entries for `CONTEXT.md`
-  and `docs/adr/` are annotated as conditional: both are created lazily during
-  the grill (first term and first ADR respectively) and may not exist in a fresh
-  scaffold. If any sibling projects were identified as related (step 4a), add a
-  "Related projects" section linking them by path with a one-line why. Also write
-  the Skills section (templates.md) and the everything-tracked norm.
+- **`AGENTS.md`**: write from templates.md, filling every placeholder. Include the
+  multi-agent contract (below). The `CONTEXT.md` and `docs/adr/` index entries are
+  conditional: both are created lazily during the grill and may not exist in a
+  fresh scaffold. Add the "Related projects" section only if step 4a found any
+  (path + one-line why).
 - **Harness alias**: make `AGENTS.md` auto-load in the user's harness (see Harness
   notes). Default to Claude Code: a `CLAUDE.md` whose single line is `@AGENTS.md`.
   Add other aliases (`GEMINI.md`, etc.) only if the user names another harness.
@@ -154,15 +149,7 @@ Claude Code example: create a `CLAUDE.md` containing the single line `@AGENTS.md
 (Claude Code import syntax), which imports the file. Alternatively, symlink:
 `ln -s AGENTS.md CLAUDE.md`.
 
-Other harnesses work the same way: `ln -s AGENTS.md GEMINI.md` for Gemini CLI,
-and so on for any harness that reads a different filename.
-
 ## Files
-- **templates.md**: all scaffold file bodies (AGENTS.md, TASKS.md, sources.md,
-  memory index, `.gitignore` by type).
-- **EXTEND.md**: the extend-mode procedure, fold new input into an existing
-  project.
-- **CONTEXT-FORMAT.md**: glossary format for step 4.
-- **ADR-FORMAT.md**: ADR format for step 4.
-- **base-skills/**: the three skills copied into each scaffolded project:
-  `capture-to-project`, `tidy-project`, `recap-project`.
+templates.md (scaffold file bodies), EXTEND.md (extend mode), CONTEXT-FORMAT.md and
+ADR-FORMAT.md (formats for step 4), base-skills/ (capture-to-project, tidy-project,
+recap-project, copied into each scaffold).
