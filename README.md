@@ -2,7 +2,7 @@
 
 Takes an idea, a notes dump, or a session transcript and turns it into a complete agent-ready local project: a git repo with `TASKS.md`, an `AGENTS.md` steering file, `CONTEXT.md` glossary, `docs/adr/` for architecture decisions, `assets/` for provided source material, `research/` for generated work, and a repo-local memory index. The grill is the engine: the agent interviews you one question at a time until there is shared understanding, writing decisions into the project's docs live as the conversation advances.
 
-This is a portable **Agent Skill**: a folder containing `SKILL.md` (with `name` and `description` frontmatter) plus three reference files. Any agent harness that supports the Agent Skills format can load and invoke it.
+This is a portable **Agent Skill**: a folder containing `SKILL.md` (with `name` and `description` frontmatter), reference files (`templates.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md`), an `EXTEND.md` mode for folding new input into a project that already exists, and a `base-skills/` bundle that ships into every project it scaffolds. Any agent harness that supports the Agent Skills format can load and invoke it.
 
 ## Install
 
@@ -86,6 +86,11 @@ Ask your agent to turn an artifact into a project:
 > "Scaffold a project from these notes."
 > "Make a project out of this session."
 
+To fold new input into a project that already exists (extend mode):
+
+> "Add this to my project."
+> "Extend the project with these notes."
+
 The agent picks up the skill automatically from the trigger phrases in `SKILL.md`.
 
 ## What it scaffolds
@@ -98,6 +103,17 @@ The agent picks up the skill automatically from the trigger phrases in `SKILL.md
 - `docs/adr/`: architecture decision records for hard-to-reverse trade-offs (created on first ADR)
 - `docs/memory/MEMORY.md`: repo-local memory index (header and format, no facts yet)
 - Related projects: if sibling directories are relevant, linked in AGENTS.md with a one-line why
+- `.agents/skills/`: three bundled base skills copied in and stamped (`installed`, `source`); `.claude/skills` symlinks here for Claude Code, other harnesses symlink their own dir
+
+## Bundled base skills
+
+Every scaffolded project ships with three small skills in `.agents/skills/`. They are documented in the project's `AGENTS.md` and fired by directives there, so the project maintains itself as you work:
+
+- **`capture-to-project`**: when a decision, term, durable fact, or actionable item surfaces, it files the point into the right doc (`CONTEXT.md`, an ADR, `TASKS.md`, `docs/memory/`, or a `research/` note), then commits.
+- **`tidy-project`**: a janitor pass. Clears junk, fixes stale tasks and index drift, auto-fixing the safe class and proposing anything destructive, then commits.
+- **`recap-project`**: read-only cold-start orientation from `AGENTS.md`, `TASKS.md`, recent commits, and `CONTEXT.md`.
+
+The skill keeps everything tracked: each base skill commits its own changes, and `tidy-project` enforces that nothing important is left uncommitted.
 
 ## License
 
