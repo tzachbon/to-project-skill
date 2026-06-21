@@ -1,6 +1,6 @@
 ---
 name: to-project
-description: Use when the user wants to turn an idea, a notes dump, or a session transcript into a complete agent-ready local project. Triggers include "turn this into a project", "scaffold a project from this", "make a project out of this session/these notes", "set up a new repo for this".
+description: Use when the user wants to turn an idea, a notes dump, or a session transcript into a complete agent-ready local project, or to fold new input into a project that already exists. Triggers include "turn this into a project", "scaffold a project from this", "make a project out of this session/these notes", "set up a new repo for this", "extend an existing project with this", "add this to my project", "continue the project from these notes".
 ---
 
 # to-project
@@ -20,6 +20,12 @@ agents can pick up cold: where to look first (`TASKS.md`), how not to collide
 Run in order. The skill stays in the main session because the grill is an
 interview, it cannot be delegated.
 
+**Pick the mode first.** If the input targets an existing project (an explicit
+"extend / add to / continue" intent, or a target path that already holds a
+project: `AGENTS.md` or `.git`), this is an **extend** run, follow EXTEND.md
+instead of the steps below. Otherwise it is a **new** run, continue here. Both
+modes accept one or more sources.
+
 ### 1. Ingest
 Accept whatever the user has: a one-line idea, a pasted artifact, a path to
 notes, or this session's transcript. Read it fully before asking anything.
@@ -36,8 +42,10 @@ From the input, infer:
 One prompt, one line, then proceed.
 
 ### 3. Create the repo
-Before creating: if the target path already exists and is non-empty, stop and
-ask the user to confirm before proceeding. Do not scaffold over an existing project.
+Before creating: if the target path already holds a project (`AGENTS.md` or
+`.git`), this is an extend, not a new scaffold, switch to EXTEND.md. If the path
+exists and is non-empty but is not a project, stop and ask before proceeding. Do
+not scaffold over existing files.
 
 At the confirmed path: `mkdir`, `git init`, write a `.gitignore` for the detected
 type (see templates.md), picking the variant that matches the detected stack (e.g.
@@ -94,7 +102,8 @@ Write from templates.md:
   and `docs/adr/` are annotated as conditional: both are created lazily during
   the grill (first term and first ADR respectively) and may not exist in a fresh
   scaffold. If any sibling projects were identified as related (step 4a), add a
-  "Related projects" section linking them by path with a one-line why.
+  "Related projects" section linking them by path with a one-line why. Also write
+  the Skills section (templates.md) and the everything-tracked norm.
 - **Harness alias**: make `AGENTS.md` auto-load in the user's harness (see Harness
   notes). Default to Claude Code: a `CLAUDE.md` whose single line is `@AGENTS.md`.
   Add other aliases (`GEMINI.md`, etc.) only if the user names another harness.
@@ -106,10 +115,19 @@ Write from templates.md:
   tracked in git (provenance is the point); very large or binary assets may be
   gitignored if size is a concern. The `AGENTS.md` index is the single source of
   truth for what-goes-where. No per-directory READMEs.
+- **Type-specific dirs**: on top of the core, add the extension for the declared
+  type (see templates.md, "Type-specific extensions"). Keep it minimal, omit when
+  unsure. Reflect whatever you add in the `AGENTS.md` index.
 - **Memory index**: seed the repo-local index (header + format, no facts).
 - **Provenance**: copy the source artifact into `assets/` with a dated name, log
   it in `assets/sources.md`; ADRs and CONTEXT terms that came from it cite it. A
   typed-only idea with no file goes to `assets/origin.md`.
+- **Base skills**: install the three bundled base skills into the project. For
+  each of `capture-to-project`, `tidy-project`, `recap-project`, copy this skill's
+  `base-skills/<name>/` to the project's `.agents/skills/<name>/` and append
+  `installed: <YYYY-MM-DD>` and `source: to-project` to the copied SKILL.md
+  frontmatter. Symlink `.claude/skills` -> `.agents/skills` (Claude Code; add
+  other harness skill-dir symlinks only if the user named one).
 
 ### 7. Commit
 One commit, "Initial project scaffold". No AI attribution (per the user's global
@@ -142,5 +160,9 @@ and so on for any harness that reads a different filename.
 ## Files
 - **templates.md**: all scaffold file bodies (AGENTS.md, TASKS.md, sources.md,
   memory index, `.gitignore` by type).
+- **EXTEND.md**: the extend-mode procedure, fold new input into an existing
+  project.
 - **CONTEXT-FORMAT.md**: glossary format for step 4.
 - **ADR-FORMAT.md**: ADR format for step 4.
+- **base-skills/**: the three skills copied into each scaffolded project:
+  `capture-to-project`, `tidy-project`, `recap-project`.

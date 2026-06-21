@@ -29,6 +29,9 @@ automatically and are not repeated here. Reminders that bite often in this proje
 - No AI attribution in commits, PRs, or file content.
 - No em dashes in prose. Self-edit for slop before sending.
 
+Everything stays tracked. Commit your work as you go; never leave the tree dirty
+or important state uncommitted. `tidy-project` enforces this.
+
 ## You are not alone (multi-agent contract)
 
 Assume other agents and the user work this repo at the same time.
@@ -45,6 +48,20 @@ Assume other agents and the user work this repo at the same time.
 - Converging a side session back into the main thread closes the loop; the main
   session stays the source of truth.
 
+## Skills (bundled)
+
+Three skills live in `.agents/skills/` (`.claude/skills` symlinks to it; other
+harnesses symlink their own skills dir here). Use them in normal work:
+
+- **`capture-to-project`**: when a decision, term, durable fact, or actionable
+  item surfaces, run it to file the point into the right doc (`CONTEXT.md`, an
+  ADR, `TASKS.md`, `docs/memory/`, or a `research/` note). It commits.
+- **`tidy-project`**: occasionally (session start, or after a batch of changes),
+  run it to clear junk, fix stale tasks and index drift, then commit. It auto-fixes
+  safe items and proposes anything destructive.
+- **`recap-project`**: re-entering cold? run it for a read-only "where we are,
+  what is next" brief.
+
 ## Index: where things live
 
 `AGENTS.md` is the canonical steering file. Harness aliases are documented in
@@ -52,6 +69,8 @@ the skill's Harness notes section.
 
 - **`AGENTS.md`** (this file): steering instructions and directory map.
 - **`TASKS.md`**: task board. Read first, update as you work.
+- **`.agents/skills/`**: bundled project skills (capture/tidy/recap).
+  `.claude/skills` symlinks here for Claude Code.
 - **`assets/`**: all provided raw inputs (transcripts, images, scripts, the
   originating dump). Tracked in git; provenance lives here.
   - `assets/sources.md`: index of every provided asset.
@@ -200,3 +219,23 @@ build/
 ```
 # (common block is usually enough; add tool-specific dirs as they appear)
 ```
+
+---
+
+## Type-specific extensions
+
+The fixed core (AGENTS.md, TASKS.md, assets/, docs/, docs/memory/, research/) is
+always created. On top of it, add the extension for the declared type. Keep it
+minimal: an empty dir with a `.gitkeep`, not a code skeleton. Omit when unsure and
+let structure emerge. For a free-form type with no row, compose from the nearest
+match or skip.
+
+| Type | Add | AGENTS.md index entry |
+|---|---|---|
+| software | `src/`, `tests/` | "src/: source. tests/: tests." |
+| presentation | `slides/` | "slides/: the deck." |
+| research | (none beyond core) | research/ already covers it |
+| docs | (none beyond core) | docs/ already covers it |
+| ops-runbook | `runbooks/` | "runbooks/: the procedures." |
+| library | `src/`, `tests/`, `examples/` | "src/, tests/, examples/." |
+| data-analysis | `data/`, `notebooks/` | "data/: inputs. notebooks/: analysis." |
