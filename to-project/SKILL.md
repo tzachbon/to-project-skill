@@ -123,6 +123,14 @@ Write from templates.md:
   `installed: <YYYY-MM-DD>` and `source: to-project` to the copied SKILL.md
   frontmatter. Symlink `.claude/skills` -> `.agents/skills` (Claude Code; add
   other harness skill-dir symlinks only if the user named one).
+- **Discovered skills**: after the base skills, run find-skills for this project.
+  Derive 2-4 queries from the type, domain, and stack surfaced in the grill (step
+  4), run `npx skills find <query>` for each, dedupe, and install the 5-10 most
+  relevant (this count is on top of the 3 base skills). Install each into the
+  project's `.agents/skills/<name>/` (project-local, never `-g`) and append
+  `installed: <YYYY-MM-DD>` and `source: find-skills` to the copied SKILL.md
+  frontmatter, same as the base skills. If `npx skills` is unavailable, skip and
+  note it in the scaffold.
 
 ### 7. Commit
 One commit, "Initial project scaffold". No AI attribution (per the user's global
@@ -152,4 +160,5 @@ Claude Code example: create a `CLAUDE.md` containing the single line `@AGENTS.md
 ## Files
 templates.md (scaffold file bodies), EXTEND.md (extend mode), CONTEXT-FORMAT.md and
 ADR-FORMAT.md (formats for step 4), base-skills/ (capture-to-project, tidy-project,
-recap-project, copied into each scaffold).
+recap-project, copied into each scaffold). Scaffolding also runs find-skills to add
+5-10 project-relevant skills on top of those.
